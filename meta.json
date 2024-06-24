@@ -273,13 +273,8 @@
     "HR-exercise1","HR-exercise2", "HR-exercise3","HR-exercise4","HR-exercise5","HR-exercise6","HR-exercise7","HR-exercise8"
     ],
     "tags_replacements": [
-      [
-        "font",
-        {
-          "color": "#ff0000"
-        },
-        "case-nominative"
-      ]
+["span", {"style": "color: rgb(85, 170, 0);"}, "case-nominative"],
+      ["font", {"color": "#55aa00"}, "case-nominative"]
     ]
   }
 }

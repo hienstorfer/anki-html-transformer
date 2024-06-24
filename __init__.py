@@ -1,14 +1,13 @@
 import json
 from aqt import mw
 from aqt.qt import QAction, QMenu
-from aqt.utils import showInfo
 from bs4 import BeautifulSoup
 from anki.hooks import addHook
-from anki.notes import Note
 from aqt.browser import Browser
 
 # Load configuration
 config = mw.addonManager.getConfig(__name__)
+
 
 class HTMLCleaner:
     def __init__(self, html_data):
@@ -34,6 +33,7 @@ class HTMLCleaner:
         """Return the cleaned HTML."""
         return str(self.soup)
 
+
 def process_html(note):
     fields_to_process = config.get("fields_to_process", [])
     tag_replacements = config.get("tags_replacements", [])
@@ -50,6 +50,7 @@ def process_html(note):
 
     note.flush()
 
+
 def on_html_transformer(browser):
     selected_notes = browser.selected_notes()
     for note_id in selected_notes:
@@ -57,11 +58,13 @@ def on_html_transformer(browser):
         process_html(note)
     mw.reset()
 
+
 def setup_menu(browser):
     menu = QMenu("HTML Transformer", browser.form.menuEdit)
     action = QAction("Transform HTML in selected notes", browser)
     action.triggered.connect(lambda: on_html_transformer(browser))
     menu.addAction(action)
     browser.form.menuEdit.addMenu(menu)
+
 
 addHook("browser.setupMenus", setup_menu)
