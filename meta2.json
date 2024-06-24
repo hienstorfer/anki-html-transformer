@@ -1,0 +1,14 @@
+{
+  "config": {
+    "allowed_tags": [
+        "doesnotexist"
+    ],
+    "fields_to_process": [
+"CardID"
+    ],
+    "tags_replacements": [
+["doesnotexist", {"style": "color: rgb(85, 170, 0);"}, "case-nominative"],
+      ["font", {"color": "#55aa00"}, "case-nominative"]
+    ]
+  }
+}
