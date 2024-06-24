@@ -5,6 +5,7 @@ from aqt.utils import showInfo
 from bs4 import BeautifulSoup
 from anki.hooks import addHook
 from anki.notes import Note
+from aqt.browser import Browser
 
 # Load configuration
 config = mw.addonManager.getConfig(__name__)
@@ -49,8 +50,8 @@ def process_html(note):
 
     note.flush()
 
-def on_html_transformer():
-    selected_notes = mw.col.find_notes(mw.form.browser.selectedNotes())
+def on_html_transformer(browser):
+    selected_notes = browser.selected_notes()
     for note_id in selected_notes:
         note = mw.col.get_note(note_id)
         process_html(note)
@@ -59,7 +60,7 @@ def on_html_transformer():
 def setup_menu(browser):
     menu = QMenu("HTML Transformer", browser.form.menuEdit)
     action = QAction("Transform HTML in selected notes", browser)
-    action.triggered.connect(on_html_transformer)
+    action.triggered.connect(lambda: on_html_transformer(browser))
     menu.addAction(action)
     browser.form.menuEdit.addMenu(menu)
 
