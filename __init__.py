@@ -8,7 +8,6 @@ from aqt.browser import Browser
 # Load configuration
 config = mw.addonManager.getConfig(__name__)
 
-
 class HTMLCleaner:
     def __init__(self, html_data):
         self.soup = BeautifulSoup(html_data, 'html.parser')
@@ -18,7 +17,10 @@ class HTMLCleaner:
         for old_tag, attributes, new_tag in tag_attr_new_tag_tuples:
             for tag in self.soup.find_all(old_tag, attributes):
                 new_tag_element = self.soup.new_tag(new_tag)
-                new_tag_element.string = tag.string
+                if tag.string:
+                    new_tag_element.string = tag.string
+                else:
+                    new_tag_element.extend(tag.contents)
                 tag.replace_with(new_tag_element)
         return self
 
@@ -32,7 +34,6 @@ class HTMLCleaner:
     def get_clean_html(self):
         """Return the cleaned HTML."""
         return str(self.soup)
-
 
 def process_html(note):
     fields_to_process = config.get("fields_to_process", [])
@@ -50,7 +51,6 @@ def process_html(note):
 
     note.flush()
 
-
 def on_html_transformer(browser):
     selected_notes = browser.selected_notes()
     for note_id in selected_notes:
@@ -58,13 +58,11 @@ def on_html_transformer(browser):
         process_html(note)
     mw.reset()
 
-
 def setup_menu(browser):
     menu = QMenu("HTML Transformer", browser.form.menuEdit)
     action = QAction("Transform HTML in selected notes", browser)
     action.triggered.connect(lambda: on_html_transformer(browser))
     menu.addAction(action)
     browser.form.menuEdit.addMenu(menu)
-
 
 addHook("browser.setupMenus", setup_menu)
