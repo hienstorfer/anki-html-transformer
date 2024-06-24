@@ -1,0 +1,17 @@
+{
+    "package": "html_transformer",
+    "name": "HTML Transformer",
+    "description": "An addon to transform HTML in Anki notes.",
+    "addon_version": "1.0.0",
+    "author": "Your Name",
+    "license": "MIT",
+    "config": {
+        "tags_replacements": [
+            ["font", {"color": "#ff0000"}, "Nominative"]
+        ],
+        "allowed_tags": ["case-nominative-male-singular", "Nominative"],
+        "fields_to_process": ["Field1", "Field2"]
+    },
+    "min_point_version": "2.1.28",
+    "max_point_version": "2.1.49"
+}
